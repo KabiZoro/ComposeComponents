@@ -45,7 +45,7 @@ fun OTPInputField(
     onKeyboardBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var text by remember {
+    var text by remember(number) {
         mutableStateOf(
             TextFieldValue(
                 text = number?.toString().orEmpty(), // if null value use empty text
@@ -86,7 +86,7 @@ fun OTPInputField(
                 color = CodingGreen
             ),
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number
+                keyboardType = KeyboardType.NumberPassword
             ),
             modifier = Modifier
                 .padding(10.dp)
