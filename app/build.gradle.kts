@@ -43,6 +43,9 @@ android {
 
 dependencies {
 
+    // tab row
+    implementation("androidx.compose.material:material-icons-extended-android:1.7.8")
+
     // audio recorder
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
 
