@@ -43,6 +43,9 @@ android {
 
 dependencies {
 
+    // audio recorder
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+
     // OTP input field
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
