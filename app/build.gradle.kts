@@ -43,6 +43,9 @@ android {
 
 dependencies {
 
+    // navigation rail
+    implementation("androidx.compose.material3:material3-window-size-class:1.4.0")
+
     // tab row
     implementation("androidx.compose.material:material-icons-extended-android:1.7.8")
 
