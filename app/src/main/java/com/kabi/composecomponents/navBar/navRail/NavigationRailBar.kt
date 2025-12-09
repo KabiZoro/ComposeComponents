@@ -1,3 +1,4 @@
+/*
 @file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 
 package com.kabi.composecomponents.navBar.navRail
@@ -205,4 +206,4 @@ private fun NavigationRailBarPreview() {
             DpSize(673.dp, 841.dp)
         )
     NavigationRailBar(windowSizeClass)
-}
+}*/

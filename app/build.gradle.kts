@@ -43,8 +43,15 @@ android {
 
 dependencies {
 
+    // Coil
+    implementation(libs.coil.compose)
+
+    // exo player
+    implementation(libs.androidx.media3.exoplayer)
+    implementation("androidx.media3:media3-ui:1.1.0")
+
     // navigation rail
-    implementation("androidx.compose.material3:material3-window-size-class:1.4.0")
+//    implementation("androidx.compose.material3:material3-window-size-class:1.4.0")
 
     // tab row
     implementation("androidx.compose.material:material-icons-extended-android:1.7.8")
