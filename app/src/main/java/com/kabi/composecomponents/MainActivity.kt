@@ -1,29 +1,33 @@
 package com.kabi.composecomponents
 
-import android.content.ContentUris
-import android.icu.util.Calendar
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.workDataOf
 import coil.compose.AsyncImage
-import com.kabi.composecomponents.mediaPlayer.AudioPlayerScreen
-import com.kabi.composecomponents.media_metadata.AudioMetadataScreen
+import com.kabi.composecomponents.android_basics.broadcast_receiver.AirPlaneModeReceiver
+import com.kabi.composecomponents.android_basics.broadcast_receiver.TestReceiver
+import com.kabi.composecomponents.android_basics.foreground_service.RunningService
+import com.kabi.composecomponents.android_basics.intent.SecondActivity
+import com.kabi.composecomponents.android_basics.intent.UriImageViewModel
+import com.kabi.composecomponents.android_basics.work_manager.PhotoCompressionWorker
 import com.kabi.composecomponents.ui.theme.ComposeComponentsTheme
-import com.kabi.composecomponents.uri.Image
 import com.kabi.composecomponents.uri.ImageViewModel
 
 // content providers -- https://youtu.be/IVHZpTyVOxU
@@ -32,10 +36,32 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<ImageViewModel>()
 
+    private val imageViewModel by viewModels<UriImageViewModel>()
+
+    private val airPlaneModeReceiver = AirPlaneModeReceiver()
+    private val testReceiver = TestReceiver()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ActivityCompat.requestPermissions(
+        registerReceiver(
+            airPlaneModeReceiver,
+            IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        )
+        registerReceiver(
+            testReceiver,
+            IntentFilter("TEST_RECEIVER")
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                0
+            )
+        }
+
+        /*ActivityCompat.requestPermissions(
             this,
             arrayOf(android.Manifest.permission.READ_MEDIA_IMAGES),
             0
@@ -74,12 +100,80 @@ class MainActivity : ComponentActivity() {
                 images.add(Image(id, displayName, uri))
             }
             viewModel.updateImages(images)
-        }
+        }*/
 
         enableEdgeToEdge()
         setContent {
             ComposeComponentsTheme {
-                AudioMetadataScreen()
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    imageViewModel.uri?.let {
+                        AsyncImage(
+                            model = imageViewModel.uri,
+                            contentDescription = null
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            sendBroadcast(
+                                Intent("TEST_ACTION")
+                            )
+                            /*Intent(applicationContext, SecondActivity::class.java).also {
+                                startActivity(it)
+                            }*/
+                            /*Intent(Intent.ACTION_MAIN).also {
+                                it.`package` = "com.google.android.youtube"
+                                try {
+                                    startActivity(it)
+                                } catch (e: ActivityNotFoundException) {
+                                    e.printStackTrace()
+                                }
+                            }*/
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_EMAIL, arrayOf("test@test.com"))
+                                putExtra(Intent.EXTRA_SUBJECT, "This is my subject")
+                                putExtra(Intent.EXTRA_TEXT, "This is the content")
+                            }
+                            if (intent.resolveActivity(packageManager) != null) {
+                                startActivity(intent)
+                            }
+                        }
+                    ) { Text(text = "Click Here") }
+                }
+                // foreground service
+                /*Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = {
+                            Intent(applicationContext, RunningService::class.java).also {
+                                it.action = RunningService.Actions.START.toString()
+                                startService(it)
+                            }
+                        }
+                    ) {
+                        Text("Start run")
+                    }
+                    Button(
+                        onClick = {
+                            Intent(applicationContext, RunningService::class.java).also {
+                                it.action = RunningService.Actions.STOP.toString()
+                                startService(it)
+                            }
+                        }
+                    ) {
+                        Text("Stop run")
+                    }
+                }*/
+//                AudioMetadataScreen()
                 /*LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -102,6 +196,36 @@ class MainActivity : ComponentActivity() {
                 }*/
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+        } else {
+            intent.getParcelableExtra(Intent.EXTRA_STREAM)
+        }?: return
+
+        val request = OneTimeWorkRequestBuilder<PhotoCompressionWorker>()
+            .setInputData(
+                workDataOf(
+                    PhotoCompressionWorker.KEY_CONTENT_URI to uri.toString(),
+                )
+            )
+
+        // foreground service
+        /*val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+        } else {
+            intent.getParcelableExtra(Intent.EXTRA_STREAM)
+        }
+        imageViewModel.updateUri(uri)*/
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(airPlaneModeReceiver)
+        unregisterReceiver(testReceiver)
     }
 }
 

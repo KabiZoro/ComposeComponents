@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -33,8 +36,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
     }
     buildFeatures {
         compose = true
@@ -42,6 +45,19 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.credentials.core)
+    implementation(libs.androidx.credentials.compat)
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+
+    // supabase
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.2.6"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:auth-kt")
+    implementation("io.github.jan-tennert.supabase:realtime-kt")
 
     // Coil
     implementation(libs.coil.compose)
