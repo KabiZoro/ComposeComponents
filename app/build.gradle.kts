@@ -45,16 +45,24 @@ android {
 }
 
 dependencies {
+    // ML Kit Barcode Scanning
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+
+    // CameraX
+    implementation("androidx.camera:camera-camera2:1.5.2")
+    implementation("androidx.camera:camera-lifecycle:1.5.2")
+    implementation("androidx.camera:camera-view:1.5.2")
+
 
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.credentials.core)
     implementation(libs.androidx.credentials.compat)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.11.0")
 
     // supabase
-    implementation(platform("io.github.jan-tennert.supabase:bom:3.2.6"))
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.3.0"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.github.jan-tennert.supabase:auth-kt")
     implementation("io.github.jan-tennert.supabase:realtime-kt")
@@ -64,7 +72,7 @@ dependencies {
 
     // exo player
     implementation(libs.androidx.media3.exoplayer)
-    implementation("androidx.media3:media3-ui:1.1.0")
+    implementation("androidx.media3:media3-ui:1.9.0")
 
     // navigation rail
 //    implementation("androidx.compose.material3:material3-window-size-class:1.4.0")
