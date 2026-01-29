@@ -1,6 +1,5 @@
 package com.kabi.composecomponents
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
@@ -10,23 +9,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.workDataOf
-import coil.compose.AsyncImage
 import com.kabi.composecomponents.android_basics.broadcast_receiver.AirPlaneModeReceiver
 import com.kabi.composecomponents.android_basics.broadcast_receiver.TestReceiver
-import com.kabi.composecomponents.android_basics.foreground_service.RunningService
-import com.kabi.composecomponents.android_basics.intent.SecondActivity
 import com.kabi.composecomponents.android_basics.intent.UriImageViewModel
 import com.kabi.composecomponents.android_basics.work_manager.PhotoCompressionWorker
+import com.kabi.composecomponents.barcode_scanner.BarcodeScannerScreen
+import com.kabi.composecomponents.horizontal_pager.HorizontalPagerScreen
 import com.kabi.composecomponents.ui.theme.ComposeComponentsTheme
 import com.kabi.composecomponents.uri.ImageViewModel
 
@@ -105,7 +96,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeComponentsTheme {
-                Column(
+                /*Column(
                     modifier = Modifier
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,17 +113,17 @@ class MainActivity : ComponentActivity() {
                             sendBroadcast(
                                 Intent("TEST_ACTION")
                             )
-                            /*Intent(applicationContext, SecondActivity::class.java).also {
+                            *//*Intent(applicationContext, SecondActivity::class.java).also {
                                 startActivity(it)
-                            }*/
-                            /*Intent(Intent.ACTION_MAIN).also {
+                            }*//*
+                            *//*Intent(Intent.ACTION_MAIN).also {
                                 it.`package` = "com.google.android.youtube"
                                 try {
                                     startActivity(it)
                                 } catch (e: ActivityNotFoundException) {
                                     e.printStackTrace()
                                 }
-                            }*/
+                            }*//*
                             val intent = Intent(Intent.ACTION_SEND).apply {
                                 type = "text/plain"
                                 putExtra(Intent.EXTRA_EMAIL, arrayOf("test@test.com"))
@@ -144,7 +135,11 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     ) { Text(text = "Click Here") }
-                }
+                }*/
+
+                BarcodeScannerScreen()
+//                HorizontalPagerScreen()
+
                 // foreground service
                 /*Column(
                     modifier = Modifier
