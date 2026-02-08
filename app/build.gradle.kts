@@ -53,6 +53,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.5.2")
     implementation("androidx.camera:camera-view:1.5.2")
 
+    // media3
+    implementation(libs.bundles.media3)
+
 
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.credentials.core)

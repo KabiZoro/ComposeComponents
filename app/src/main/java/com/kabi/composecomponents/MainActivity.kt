@@ -9,6 +9,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.workDataOf
@@ -18,6 +22,7 @@ import com.kabi.composecomponents.android_basics.intent.UriImageViewModel
 import com.kabi.composecomponents.android_basics.work_manager.PhotoCompressionWorker
 import com.kabi.composecomponents.barcode_scanner.BarcodeScannerScreen
 import com.kabi.composecomponents.horizontal_pager.HorizontalPagerScreen
+import com.kabi.composecomponents.media3.MediaPickerScreen
 import com.kabi.composecomponents.ui.theme.ComposeComponentsTheme
 import com.kabi.composecomponents.uri.ImageViewModel
 
@@ -137,7 +142,16 @@ class MainActivity : ComponentActivity() {
                     ) { Text(text = "Click Here") }
                 }*/
 
-                BarcodeScannerScreen()
+//                BarcodeScannerScreen()
+
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    MediaPickerScreen(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    )
+                }
+
 //                HorizontalPagerScreen()
 
                 // foreground service
