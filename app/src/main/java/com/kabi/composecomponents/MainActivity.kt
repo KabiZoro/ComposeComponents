@@ -21,6 +21,7 @@ import com.kabi.composecomponents.android_basics.broadcast_receiver.TestReceiver
 import com.kabi.composecomponents.android_basics.intent.UriImageViewModel
 import com.kabi.composecomponents.android_basics.work_manager.PhotoCompressionWorker
 import com.kabi.composecomponents.barcode_scanner.BarcodeScannerScreen
+import com.kabi.composecomponents.deepLink.NavRoot
 import com.kabi.composecomponents.horizontal_pager.HorizontalPagerScreen
 import com.kabi.composecomponents.media3.MediaPickerScreen
 import com.kabi.composecomponents.ui.theme.ComposeComponentsTheme
@@ -150,6 +151,7 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(innerPadding)
                     )
+//                    NavRoot()
                 }
 
 //                HorizontalPagerScreen()

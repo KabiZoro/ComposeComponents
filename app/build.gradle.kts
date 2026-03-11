@@ -58,6 +58,7 @@ dependencies {
 
 
     implementation(libs.androidx.compose.navigation)
+//    implementation(libs.jetbrains.compose.navigation)
     implementation(libs.androidx.credentials.core)
     implementation(libs.androidx.credentials.compat)
     implementation(libs.kotlinx.serialization.json)

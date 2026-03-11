@@ -48,6 +48,25 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
 
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- https://my-url.com/item/ -->
+                <data android:scheme="https" />
+                <data android:host="my-url.com" />
+                <data android:pathPrefix="/item/" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- zoro://my-url.com/item/ -->
+                <data android:scheme="zoro" />
+                <data android:host="my-url.com" />
+                <data android:pathPrefix="/item/" />
+            </intent-filter>
+
         </activity>
         <service
             android:name=".android_basics.foreground_service.RunningService"
