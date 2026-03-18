@@ -23,6 +23,7 @@ import com.kabi.composecomponents.android_basics.work_manager.PhotoCompressionWo
 import com.kabi.composecomponents.barcode_scanner.BarcodeScannerScreen
 import com.kabi.composecomponents.deepLink.NavRoot
 import com.kabi.composecomponents.horizontal_pager.HorizontalPagerScreen
+import com.kabi.composecomponents.internet_speed.NetworkSpeedOverlay
 import com.kabi.composecomponents.media3.MediaPickerScreen
 import com.kabi.composecomponents.ui.theme.ComposeComponentsTheme
 import com.kabi.composecomponents.uri.ImageViewModel
@@ -146,11 +147,12 @@ class MainActivity : ComponentActivity() {
 //                BarcodeScannerScreen()
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MediaPickerScreen(
+                    /*MediaPickerScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
-                    )
+                    )*/
+                    NetworkSpeedOverlay()
 //                    NavRoot()
                 }
 
